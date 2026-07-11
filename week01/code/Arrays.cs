@@ -30,7 +30,8 @@ public static class Arrays
             n += number;
         }
 
-        return multiples; // return multiples array after building multiples
+        // return multiples array after building multiples
+        return multiples;
     }
 
     /// <summary>
@@ -57,14 +58,14 @@ public static class Arrays
             realAmount = amount % data.Count;
         }
 
-        // add items that overflow/shift past the end of the array to the beginning
+        // add items that overflow/shift past the end of the array to the beginning of array
         int realEnd = data.Count - realAmount;
         for (int i = realEnd; i < data.Count; i++)
         {
             newData.Add(data[i]);
         }
 
-        // add items before the shift to the end
+        // add items shifted to the end
         for (int i = 0; i < realEnd; i++)
         {
             newData.Add(data[i]);
