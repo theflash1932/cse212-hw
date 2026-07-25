@@ -21,8 +21,31 @@ public static class SetsAndMaps
     /// <param name="words">An array of 2-character words (lowercase, no duplicates)</param>
     public static string[] FindPairs(string[] words)
     {
-        // TODO Problem 1 - ADD YOUR CODE HERE
-        return [];
+        HashSet<string> mSet = new HashSet<string>();
+        List<string> mResult = new List<string>();
+
+        // Put all words into set
+        foreach (string word in words)
+        {
+            mSet.Add(word);
+        }
+
+        // Look for matching words that are reversed
+        foreach (string word in words)
+        {
+            string reverse = "" + word[1] + word[0];
+
+            if (word[0] != word[1] && mSet.Contains(reverse))
+            {
+                mResult.Add(word + " & " + reverse);
+
+                // Take out matching words
+                mSet.Remove(word);
+                mSet.Remove(reverse);
+            }
+        }
+        //string[] rArray = result.ToArray();
+        return mResult.ToArray();
     }
 
     /// <summary>
@@ -38,13 +61,23 @@ public static class SetsAndMaps
     /// <returns>fixed array of divisors</returns>
     public static Dictionary<string, int> SummarizeDegrees(string filename)
     {
-        var degrees = new Dictionary<string, int>();
-        foreach (var line in File.ReadLines(filename))
+        Dictionary<string, int> degrees = new Dictionary<string, int>();
+        foreach (string line in File.ReadLines(filename))
         {
-            var fields = line.Split(",");
+            string[] fields = line.Split(",");
             // TODO Problem 2 - ADD YOUR CODE HERE
-        }
+            string censusDegree = fields[3];
 
+            if (degrees.ContainsKey(censusDegree))
+            {
+                degrees[censusDegree] = degrees[censusDegree] + 1;
+            }
+            else
+            {
+                degrees[censusDegree] = 1;
+            }
+        }
+        // Dictionary<string, int> rDegrees =
         return degrees;
     }
 
@@ -67,7 +100,59 @@ public static class SetsAndMaps
     public static bool IsAnagram(string word1, string word2)
     {
         // TODO Problem 3 - ADD YOUR CODE HERE
-        return false;
+        Dictionary<char, int> letters = new Dictionary<char, int>();
+
+        word1 = word1.ToLower();
+        word1 = word1.Replace(" ", "");
+        word2 = word2.ToLower();
+        word2 = word2.Replace(" ", "");
+
+        // Qty letters in word1
+        for (int i = 0; i < word1.Length; i++)
+        {
+            char letter = word1[i];
+            if (letters.ContainsKey(letter))
+            {
+                letters[letter] = letters[letter] + 1;
+            }
+            else
+            {
+                letters[letter] = 1;
+            }
+        }
+
+        // Remove extras
+        for (int i = 0; i < word2.Length; i++)
+        {
+            char letter = word2[i];
+
+            if (letters.ContainsKey(letter) == false)
+            {
+                return false;
+            }
+
+            letters[letter] = letters[letter] - 1;
+
+            if (letters[letter] < 0)
+            {
+                return false;
+            }
+        }
+
+        // Use all of them
+        foreach (char letter in letters.Keys)
+        {
+            //if (letters[letter] == 0)
+            //{
+            //    return true;
+            //}
+            if (letters[letter] != 0)
+            {
+                return false;
+            }
+        }
+        //return false;
+        return true;
     }
 
     /// <summary>
