@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Runtime.InteropServices.Swift;
 
 public static class Recursion
 {
@@ -178,16 +179,51 @@ public static class Recursion
     {
         // If this is the first time running the function, then we need
         // to initialize the currPath list.
+
+        // TODO Start Problem 5
+        // ADD CODE HERE
+        // Initialize the path if this is the first call
         if (currPath == null)
         {
             currPath = new List<ValueTuple<int, int>>();
         }
 
-        // currPath.Add((1,2)); // Use this syntax to add to the current path
+        // Add current position to the path
+        currPath.Add((x, y));
 
-        // TODO Start Problem 5
-        // ADD CODE HERE
+        // Base case: Check if we've reached the end
+        if (maze.IsEnd(x, y))
+        {
+            results.Add(currPath.AsString());
+            currPath.RemoveAt(currPath.Count - 1);
+            return;
+        }
 
-        // results.Add(currPath.AsString()); // Use this to add your path to the results array keeping track of complete maze solutions when you find the solution.
+        // Recursive case: Move right
+        if (maze.IsValidMove(currPath, x + 1, y))
+        {
+            SolveMaze(results, maze, x + 1, y, currPath);
+        }
+
+        // Recursive case: Move left
+        if (maze.IsValidMove(currPath, x + 1, y))
+        {
+            SolveMaze(results, maze, x - 1, y, currPath);
+        }
+
+        // Recursive case: Move down
+        if (maze.IsValidMove(currPath, x + 1, y))
+        {
+            SolveMaze(results, maze, x, y + 1, currPath);
+        }
+
+        // Recursive case: Move up
+        if (maze.IsValidMove(currPath, x + 1, y))
+        {
+            SolveMaze(results, maze, x, y - 1, currPath);
+        }
+
+        // Backtrack: Remove current position
+        currPath.RemoveAt(currPath.Count - 1);
     }
 }
